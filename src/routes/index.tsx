@@ -14,6 +14,7 @@ import {
 const portrait = "https://i.postimg.cc/TPpW5PC8/Profile-photo-1.jpg";
 const projectFind = "https://i.postimg.cc/7PjzpYC4/Find-It-Campus-Lost-Found-Portal.png";
 const projectMarine = "https://i.postimg.cc/yNNWDwJg/Bluevision.jpg";
+import resumeAsset from "@/assets/resume.pdf.asset.json";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Typewriter } from "@/components/typewriter";
 import { SideQuest } from "@/components/side-quest/side-quest";
