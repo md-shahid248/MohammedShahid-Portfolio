@@ -14,6 +14,7 @@ import {
 const portrait = "https://i.postimg.cc/TPpW5PC8/Profile-photo-1.jpg";
 const projectFind = "https://i.postimg.cc/7PjzpYC4/Find-It-Campus-Lost-Found-Portal.png";
 const projectMarine = "https://i.postimg.cc/yNNWDwJg/Bluevision.jpg";
+import resumeAsset from "@/assets/resume.pdf.asset.json";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Typewriter } from "@/components/typewriter";
 import { SideQuest } from "@/components/side-quest/side-quest";
@@ -259,7 +260,8 @@ function Portfolio() {
                 View Projects <ArrowRight className="h-4 w-4" />
               </a>
               <a
-                href="/resume.pdf"
+                href={resumeAsset.url}
+                download="Mohammed_Shahid_R_Resume.pdf"
                 className="inline-flex items-center gap-2 rounded-full border border-border bg-background px-5 py-2.5 text-sm font-medium hover:bg-accent"
               >
                 Download Resume <Download className="h-4 w-4" />
