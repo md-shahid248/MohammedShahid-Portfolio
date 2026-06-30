@@ -470,7 +470,9 @@ function Portfolio() {
             <form
               onSubmit={async (e) => {
                 e.preventDefault();
-                if (sending) return;
+                if (sending) {
+                  return;
+                }
                 const formEl = e.currentTarget;
                 const data = new FormData(formEl);
                 setSending(true);
@@ -509,7 +511,7 @@ function Portfolio() {
                 } catch {
                   setFormStatus({
                     type: "error",
-                    message: "Network error. Please check your connection and try again.",
+                    message: "Message could not be sent from this preview. Please verify the Web3Forms access key is active, then try again.",
                   });
                 } finally {
                   setSending(false);
