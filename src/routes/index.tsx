@@ -476,22 +476,18 @@ function Portfolio() {
                 setSending(true);
                 setFormStatus({ type: "idle", message: "" });
                 try {
-                  const payload = {
-                    access_key: WEB3FORMS_ACCESS_KEY,
-                    name: data.get("name"),
-                    email: data.get("email"),
-                    subject: `Portfolio · ${data.get("subject") || data.get("name") || "Hello"}`,
-                    message: data.get("message"),
-                    from_name: "Portfolio Contact Form",
-                    botcheck: data.get("botcheck") || "",
-                  };
+                  const payload = new FormData();
+                  payload.append("access_key", WEB3FORMS_ACCESS_KEY);
+                  payload.append("name", String(data.get("name") || ""));
+                  payload.append("email", String(data.get("email") || ""));
+                  payload.append("subject", `Portfolio · ${data.get("subject") || data.get("name") || "Hello"}`);
+                  payload.append("message", String(data.get("message") || ""));
+                  payload.append("from_name", "Portfolio Contact Form");
+                  payload.append("botcheck", String(data.get("botcheck") || ""));
+
                   const res = await fetch("https://api.web3forms.com/submit", {
                     method: "POST",
-                    headers: {
-                      "Content-Type": "application/json",
-                      Accept: "application/json",
-                    },
-                    body: JSON.stringify(payload),
+                    body: payload,
                   });
                   const json = await res.json().catch(() => ({}));
                   if (res.ok && json.success) {
