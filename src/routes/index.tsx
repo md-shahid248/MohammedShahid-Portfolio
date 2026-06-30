@@ -19,6 +19,8 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { Typewriter } from "@/components/typewriter";
 import { SideQuest } from "@/components/side-quest/side-quest";
 
+const WEB3FORMS_ACCESS_KEY = "28113d20-2f8d-4343-a5fc-5f4cb653ac92";
+
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
@@ -100,6 +102,11 @@ function Section({
 function Portfolio() {
   
   const [open, setOpen] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [formStatus, setFormStatus] = useState<{ type: "idle" | "success" | "error"; message: string }>({
+    type: "idle",
+    message: "",
+  });
 
   const skills = useMemo(
     () => [
@@ -461,19 +468,63 @@ function Portfolio() {
         <div className="w-full max-w-xl">
           <div className="rounded-[2rem] border-2 border-primary/40 bg-card p-2 shadow-[0_10px_40px_-15px_hsl(var(--primary)/0.3)]">
             <form
-              onSubmit={(e) => {
+              onSubmit={async (e) => {
                 e.preventDefault();
-                const data = new FormData(e.currentTarget);
-                const subject = encodeURIComponent(
-                  `Portfolio · ${data.get("subject") || data.get("name") || "Hello"}`,
-                );
-                const body = encodeURIComponent(
-                  `${data.get("message")}\n\n— ${data.get("name")} (${data.get("email")})`,
-                );
-                window.location.href = `mailto:mohammedshahid2408@gmail.com?subject=${subject}&body=${body}`;
+                if (sending) return;
+                const formEl = e.currentTarget;
+                const data = new FormData(formEl);
+                setSending(true);
+                setFormStatus({ type: "idle", message: "" });
+                try {
+                  const payload = {
+                    access_key: WEB3FORMS_ACCESS_KEY,
+                    name: data.get("name"),
+                    email: data.get("email"),
+                    subject: `Portfolio · ${data.get("subject") || data.get("name") || "Hello"}`,
+                    message: data.get("message"),
+                    from_name: "Portfolio Contact Form",
+                    botcheck: data.get("botcheck") || "",
+                  };
+                  const res = await fetch("https://api.web3forms.com/submit", {
+                    method: "POST",
+                    headers: {
+                      "Content-Type": "application/json",
+                      Accept: "application/json",
+                    },
+                    body: JSON.stringify(payload),
+                  });
+                  const json = await res.json().catch(() => ({}));
+                  if (res.ok && json.success) {
+                    setFormStatus({
+                      type: "success",
+                      message: "Thanks! Your message has been sent. I'll get back to you soon.",
+                    });
+                    formEl.reset();
+                  } else {
+                    setFormStatus({
+                      type: "error",
+                      message: json.message || "Something went wrong. Please try again or email me directly.",
+                    });
+                  }
+                } catch {
+                  setFormStatus({
+                    type: "error",
+                    message: "Network error. Please check your connection and try again.",
+                  });
+                } finally {
+                  setSending(false);
+                }
               }}
               className="space-y-4 rounded-[1.75rem] border border-primary/30 bg-background/40 p-6 sm:p-8"
             >
+              {/* Honeypot field for spam protection */}
+              <input
+                type="checkbox"
+                name="botcheck"
+                tabIndex={-1}
+                autoComplete="off"
+                style={{ display: "none" }}
+              />
               {[
                 { name: "name", placeholder: "Name", type: "input" },
                 { name: "email", placeholder: "Email", type: "email" },
@@ -488,7 +539,8 @@ function Portfolio() {
                     name={f.name}
                     type={f.type === "email" ? "email" : "text"}
                     placeholder={f.placeholder}
-                    className="w-full rounded-xl border border-primary/20 bg-background/60 px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground outline-none"
+                    disabled={sending}
+                    className="w-full rounded-xl border border-primary/20 bg-background/60 px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground outline-none disabled:opacity-60"
                   />
                 </div>
               ))}
@@ -498,15 +550,30 @@ function Portfolio() {
                   name="message"
                   rows={5}
                   placeholder="Comment …"
-                  className="w-full resize-none rounded-xl border border-primary/20 bg-background/60 px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground outline-none"
+                  disabled={sending}
+                  className="w-full resize-none rounded-xl border border-primary/20 bg-background/60 px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground outline-none disabled:opacity-60"
                 />
               </div>
+              {formStatus.type !== "idle" && (
+                <div
+                  role="status"
+                  aria-live="polite"
+                  className={
+                    formStatus.type === "success"
+                      ? "rounded-xl border border-emerald-500/40 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-600 dark:text-emerald-400"
+                      : "rounded-xl border border-destructive/40 bg-destructive/10 px-4 py-3 text-sm text-destructive"
+                  }
+                >
+                  {formStatus.message}
+                </div>
+              )}
               <div className="flex justify-center pt-2">
                 <button
                   type="submit"
-                  className="inline-flex items-center gap-2 rounded-full bg-primary px-8 py-2.5 text-sm font-medium text-primary-foreground shadow-lg shadow-primary/20 transition-transform hover:scale-[1.03] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                  disabled={sending}
+                  className="inline-flex items-center gap-2 rounded-full bg-primary px-8 py-2.5 text-sm font-medium text-primary-foreground shadow-lg shadow-primary/20 transition-transform hover:scale-[1.03] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:scale-100"
                 >
-                  Send <ArrowRight className="h-4 w-4" />
+                  {sending ? "Sending…" : "Send"} <ArrowRight className="h-4 w-4" />
                 </button>
               </div>
             </form>
