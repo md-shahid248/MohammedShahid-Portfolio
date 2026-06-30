@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   ArrowRight,
   ArrowUpRight,
@@ -107,9 +107,6 @@ function Portfolio() {
     type: "idle",
     message: "",
   });
-  const formRef = useRef<HTMLFormElement>(null);
-  const iframeSubmissionPending = useRef(false);
-  const iframeTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const skills = useMemo(
     () => [
@@ -471,59 +468,57 @@ function Portfolio() {
         <div className="w-full max-w-xl">
           <div className="rounded-[2rem] border-2 border-primary/40 bg-card p-2 shadow-[0_10px_40px_-15px_hsl(var(--primary)/0.3)]">
             <form
-              ref={formRef}
-              action="https://api.web3forms.com/submit"
-              method="POST"
-              target="web3forms-contact-frame"
-              onSubmit={(e) => {
+              onSubmit={async (e) => {
+                e.preventDefault();
                 if (sending) {
-                  e.preventDefault();
                   return;
                 }
-
                 const formEl = e.currentTarget;
                 const data = new FormData(formEl);
-                const subjectField = formEl.elements.namedItem("subject") as HTMLInputElement | null;
-                if (subjectField) {
-                  subjectField.value = `Portfolio · ${data.get("contact_subject") || data.get("name") || "Hello"}`;
-                }
-
-                iframeSubmissionPending.current = true;
-                if (iframeTimeout.current) clearTimeout(iframeTimeout.current);
-                iframeTimeout.current = setTimeout(() => {
-                  if (!iframeSubmissionPending.current) return;
-                  iframeSubmissionPending.current = false;
-                  setSending(false);
-                  setFormStatus({
-                    type: "error",
-                    message: "Message could not be confirmed. Please try again or email me directly.",
-                  });
-                }, 15000);
-
                 setSending(true);
                 setFormStatus({ type: "idle", message: "" });
+                try {
+                  const payload = {
+                    access_key: WEB3FORMS_ACCESS_KEY,
+                    name: data.get("name"),
+                    email: data.get("email"),
+                    subject: `Portfolio · ${data.get("subject") || data.get("name") || "Hello"}`,
+                    message: data.get("message"),
+                    from_name: "Portfolio Contact Form",
+                    botcheck: data.get("botcheck") || "",
+                  };
+                  const res = await fetch("https://api.web3forms.com/submit", {
+                    method: "POST",
+                    headers: {
+                      "Content-Type": "application/json",
+                      Accept: "application/json",
+                    },
+                    body: JSON.stringify(payload),
+                  });
+                  const json = await res.json().catch(() => ({}));
+                  if (res.ok && json.success) {
+                    setFormStatus({
+                      type: "success",
+                      message: "Thanks! Your message has been sent. I'll get back to you soon.",
+                    });
+                    formEl.reset();
+                  } else {
+                    setFormStatus({
+                      type: "error",
+                      message: json.message || "Something went wrong. Please try again or email me directly.",
+                    });
+                  }
+                } catch {
+                  setFormStatus({
+                    type: "error",
+                    message: "Message could not be sent from this preview. Please verify the Web3Forms access key is active, then try again.",
+                  });
+                } finally {
+                  setSending(false);
+                }
               }}
               className="space-y-4 rounded-[1.75rem] border border-primary/30 bg-background/40 p-6 sm:p-8"
             >
-              <iframe
-                name="web3forms-contact-frame"
-                title="Contact form submission"
-                className="hidden"
-                onLoad={() => {
-                  if (!iframeSubmissionPending.current) return;
-                  iframeSubmissionPending.current = false;
-                  if (iframeTimeout.current) clearTimeout(iframeTimeout.current);
-                  setSending(false);
-                  setFormStatus({
-                    type: "success",
-                    message: "Thanks! Your message has been sent. I'll get back to you soon.",
-                  });
-                  formRef.current?.reset();
-                }}
-              />
-              <input type="hidden" name="access_key" value={WEB3FORMS_ACCESS_KEY} />
-              <input type="hidden" name="from_name" value="Portfolio Contact Form" />
-              <input type="hidden" name="subject" value="Portfolio · Hello" />
               {/* Honeypot field for spam protection */}
               <input
                 type="checkbox"
@@ -535,7 +530,7 @@ function Portfolio() {
               {[
                 { name: "name", placeholder: "Name", type: "input" },
                 { name: "email", placeholder: "Email", type: "email" },
-                { name: "contact_subject", placeholder: "Subject", type: "input" },
+                { name: "subject", placeholder: "Subject", type: "input" },
               ].map((f) => (
                 <div
                   key={f.name}
