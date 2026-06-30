@@ -19,6 +19,8 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { Typewriter } from "@/components/typewriter";
 import { SideQuest } from "@/components/side-quest/side-quest";
 
+const WEB3FORMS_ACCESS_KEY = "28113d20-2f8d-4343-a5fc-5f4cb653ac92";
+
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
