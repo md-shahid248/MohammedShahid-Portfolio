@@ -102,6 +102,11 @@ function Section({
 function Portfolio() {
   
   const [open, setOpen] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [formStatus, setFormStatus] = useState<{ type: "idle" | "success" | "error"; message: string }>({
+    type: "idle",
+    message: "",
+  });
 
   const skills = useMemo(
     () => [
