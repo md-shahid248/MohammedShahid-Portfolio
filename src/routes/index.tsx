@@ -86,9 +86,9 @@ function Section({
   children: React.ReactNode;
 }) {
   return (
-    <section id={id} className="border-t border-border px-6 py-20 md:px-12 md:py-28">
+    <section id={id} className="border-t border-border px-6 py-14 md:px-12 md:py-20">
       <div className="mx-auto max-w-7xl">
-        <div className="mb-12">
+        <div className="mb-8 md:mb-10">
           <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">{eyebrow}</p>
           <h2 className="mt-3 text-2xl font-semibold tracking-tight md:text-3xl">{title}</h2>
           {side && <p className="mt-3 text-sm text-muted-foreground">{side}</p>}
@@ -237,8 +237,8 @@ function Portfolio() {
       </header>
 
       {/* HERO */}
-      <section id="home" className="px-6 pb-20 pt-16 md:px-12 md:pb-28 md:pt-24">
-        <div className="mx-auto grid max-w-7xl items-center gap-10 md:grid-cols-2 md:gap-16">
+      <section id="home" className="px-6 pb-14 pt-12 md:px-12 md:pb-20 md:pt-16">
+        <div className="mx-auto grid max-w-7xl items-center gap-8 md:grid-cols-2 md:gap-12">
           <div className="reveal">
             <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">
               Introduction
@@ -316,7 +316,7 @@ function Portfolio() {
           applications and cloud-based systems — focused on shipping work that's both useful and
           well-crafted.
         </p>
-        <div className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-3">
+        <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3">
           {[
             "Aspiring Software Engineer",
             "Published Researcher",
@@ -357,7 +357,7 @@ function Portfolio() {
               <MapPin className="h-3 w-3" /> Bengaluru, Karnataka
             </span>
           </div>
-          <div className="mt-8 grid gap-4 sm:grid-cols-3">
+          <div className="mt-6 grid gap-4 sm:grid-cols-3">
             {[
               { k: "Degree", v: "B.E. ISE" },
               { k: "Graduating", v: "2027" },
@@ -397,7 +397,7 @@ function Portfolio() {
           ))}
         </div>
 
-        <div className="mt-8 rounded-2xl border border-border bg-card p-6">
+        <div className="mt-6 rounded-2xl border border-border bg-card p-6">
           <h3 className="text-sm font-semibold uppercase tracking-[0.14em] text-muted-foreground">
             Soft skills
           </h3>
@@ -416,7 +416,7 @@ function Portfolio() {
 
       {/* PROJECTS */}
       <Section id="projects" eyebrow="Projects" title="Featured work" side="Selected case studies.">
-        <div className="grid gap-8 md:grid-cols-2">
+        <div className="grid gap-6 md:grid-cols-2">
           {projects.map((p) => (
             <a
               key={p.title}
@@ -584,13 +584,13 @@ function Portfolio() {
       </Section>
 
       {/* FOOTER */}
-      <footer className="border-t border-border bg-card/40 px-6 py-12 md:px-12">
-        <div className="mx-auto grid max-w-7xl gap-10 md:grid-cols-12">
+      <footer className="border-t border-border bg-card/40 px-6 py-10 md:px-12">
+        <div className="mx-auto grid max-w-7xl gap-8 md:grid-cols-12">
           <div className="md:col-span-5">
             <a href="#home" className="text-sm text-muted-foreground hover:text-foreground">
               ↑ Back to top
             </a>
-            <p className="mt-6 max-w-sm text-sm text-muted-foreground">
+            <p className="mt-4 max-w-sm text-sm text-muted-foreground">
               Building impactful technology solutions through innovation, learning and
               collaboration.
             </p>
@@ -641,7 +641,7 @@ function Portfolio() {
             </ul>
           </div>
         </div>
-        <div className="mx-auto mt-12 flex max-w-7xl flex-col items-start justify-between gap-4 border-t border-border pt-8 md:flex-row md:items-end">
+        <div className="mx-auto mt-8 flex max-w-7xl flex-col items-start justify-between gap-4 border-t border-border pt-6 md:flex-row md:items-end">
           <h2 className="text-4xl font-semibold tracking-tight md:text-6xl">
             Mohammed Shahid R<sup className="text-primary">®</sup>
           </h2>
