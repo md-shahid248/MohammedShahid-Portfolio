@@ -237,8 +237,8 @@ function Portfolio() {
       </header>
 
       {/* HERO */}
-      <section id="home" className="px-6 pb-20 pt-16 md:px-12 md:pb-28 md:pt-24">
-        <div className="mx-auto grid max-w-7xl items-center gap-10 md:grid-cols-2 md:gap-16">
+      <section id="home" className="px-6 pb-14 pt-12 md:px-12 md:pb-20 md:pt-16">
+        <div className="mx-auto grid max-w-7xl items-center gap-8 md:grid-cols-2 md:gap-12">
           <div className="reveal">
             <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">
               Introduction
