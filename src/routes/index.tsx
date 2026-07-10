@@ -316,7 +316,7 @@ function Portfolio() {
           applications and cloud-based systems — focused on shipping work that's both useful and
           well-crafted.
         </p>
-        <div className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-3">
+        <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3">
           {[
             "Aspiring Software Engineer",
             "Published Researcher",
@@ -357,7 +357,7 @@ function Portfolio() {
               <MapPin className="h-3 w-3" /> Bengaluru, Karnataka
             </span>
           </div>
-          <div className="mt-8 grid gap-4 sm:grid-cols-3">
+          <div className="mt-6 grid gap-4 sm:grid-cols-3">
             {[
               { k: "Degree", v: "B.E. ISE" },
               { k: "Graduating", v: "2027" },
@@ -397,7 +397,7 @@ function Portfolio() {
           ))}
         </div>
 
-        <div className="mt-8 rounded-2xl border border-border bg-card p-6">
+        <div className="mt-6 rounded-2xl border border-border bg-card p-6">
           <h3 className="text-sm font-semibold uppercase tracking-[0.14em] text-muted-foreground">
             Soft skills
           </h3>
@@ -416,7 +416,7 @@ function Portfolio() {
 
       {/* PROJECTS */}
       <Section id="projects" eyebrow="Projects" title="Featured work" side="Selected case studies.">
-        <div className="grid gap-8 md:grid-cols-2">
+        <div className="grid gap-6 md:grid-cols-2">
           {projects.map((p) => (
             <a
               key={p.title}
