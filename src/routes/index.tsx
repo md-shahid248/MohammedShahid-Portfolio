@@ -86,9 +86,9 @@ function Section({
   children: React.ReactNode;
 }) {
   return (
-    <section id={id} className="border-t border-border px-6 py-20 md:px-12 md:py-28">
+    <section id={id} className="border-t border-border px-6 py-14 md:px-12 md:py-20">
       <div className="mx-auto max-w-7xl">
-        <div className="mb-12">
+        <div className="mb-8 md:mb-10">
           <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">{eyebrow}</p>
           <h2 className="mt-3 text-2xl font-semibold tracking-tight md:text-3xl">{title}</h2>
           {side && <p className="mt-3 text-sm text-muted-foreground">{side}</p>}
