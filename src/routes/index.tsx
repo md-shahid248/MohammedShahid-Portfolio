@@ -590,7 +590,7 @@ function Portfolio() {
             <a href="#home" className="text-sm text-muted-foreground hover:text-foreground">
               ↑ Back to top
             </a>
-            <p className="mt-6 max-w-sm text-sm text-muted-foreground">
+            <p className="mt-4 max-w-sm text-sm text-muted-foreground">
               Building impactful technology solutions through innovation, learning and
               collaboration.
             </p>
@@ -641,7 +641,7 @@ function Portfolio() {
             </ul>
           </div>
         </div>
-        <div className="mx-auto mt-12 flex max-w-7xl flex-col items-start justify-between gap-4 border-t border-border pt-8 md:flex-row md:items-end">
+        <div className="mx-auto mt-8 flex max-w-7xl flex-col items-start justify-between gap-4 border-t border-border pt-6 md:flex-row md:items-end">
           <h2 className="text-4xl font-semibold tracking-tight md:text-6xl">
             Mohammed Shahid R<sup className="text-primary">®</sup>
           </h2>
