@@ -584,8 +584,8 @@ function Portfolio() {
       </Section>
 
       {/* FOOTER */}
-      <footer className="border-t border-border bg-card/40 px-6 py-12 md:px-12">
-        <div className="mx-auto grid max-w-7xl gap-10 md:grid-cols-12">
+      <footer className="border-t border-border bg-card/40 px-6 py-10 md:px-12">
+        <div className="mx-auto grid max-w-7xl gap-8 md:grid-cols-12">
           <div className="md:col-span-5">
             <a href="#home" className="text-sm text-muted-foreground hover:text-foreground">
               ↑ Back to top
